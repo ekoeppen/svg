@@ -31,16 +31,14 @@ impl Data {
 macro_rules! implement {
     (@one #[$doc:meta] fn $method:ident($command:ident, $position:ident)) => (
         #[$doc]
-        pub fn $method<T>(mut self, parameters: T) -> Self where T: Into<Parameters> {
+        pub fn $method<T>(&mut self, parameters: T) where T: Into<Parameters> {
             self.0.push(Command::$command(Position::$position, parameters.into()));
-            self
         }
     );
     (@one #[$doc:meta] fn $method:ident($command:ident)) => (
         #[$doc]
-        pub fn $method(mut self) -> Self {
+        pub fn $method(&mut self) {
             self.0.push(Command::$command);
-            self
         }
     );
     ($(#[$doc:meta] fn $method:ident($($argument:tt)*))*) => (
